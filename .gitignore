@@ -1,0 +1,3 @@
+flaskblog/lib/*
+__pycache__/*
+flaskblog/*
