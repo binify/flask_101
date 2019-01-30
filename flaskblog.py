@@ -19,14 +19,17 @@ posts = [
     }
 ]
 
+
 @app.route('/')
 @app.route('/home')
 def home():
     return render_template('home.html', posts=posts)
 
+
 @app.route('/about')
 def about():
     return render_template('about.html', title='About')
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -36,10 +39,18 @@ def register():
         return redirect(url_for('home'))
     return render_template('register.html', title='Register', form=form)
 
-@app.route('/login')
+
+@app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        if form.email.data == 'admin@blog.com' and form.password.data == '123456':
+            flash('Logged in', 'success')
+            return redirect(url_for('home'))
+        else:
+            flash('Logged In Unsuccessful. Please check again', 'danger')
     return render_template('login.html', title='Login', form=form)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
